@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>초록마을 :: 유기농 친환경 마켓</title>
+  <meta name="description" content="나와 가장 가까운 유기농 친환경 마켓, 초록마을입니다.">
+  <meta property="og:title" content="초록마을">
+  <meta property="og:description" content="신선한 유기농 먹거리를 만나보세요.">
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;700&family=Sunflower:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="top-menu">
+      <a href="#">회원가입</a>
+      <span class="divider">|</span>
+      <a href="#">로그인</a>
+      <span class="divider">|</span>
+      <a href="#">마이페이지</a>
+      <span class="divider">|</span>
+      <a href="#">고객센터</a>
+    </div>
+
+    <div class="main-header">
+      <div class="header-left">
+        <div class="delivery-text">
+          <span class="delivery-sub">하루 안에 도착하는</span>
+          <span class="delivery-main">초록마을 배송</span>
+        </div>
+        <i class="fas fa-truck-fast delivery-icon"></i>
+      </div>
+
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-text">초록마을</span>
+          <span class="logo-badge"><i class="fas fa-leaf"></i></span>
+        </a>
+      </div>
+
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="건강한 먹거리를 검색하세요">
+          <button type="button"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <button class="all-category-btn">
+        <i class="fas fa-bars"></i>
+        <span>전체카테고리</span>
+      </button>
+      <ul class="categories">
+        <li><a href="#" class="active" data-category="전체">OnSale</a></li>
+        <li><a href="#" data-category="건강식품">초록베베</a></li>
+        <li><a href="#" data-category="양념/조미료">우리쫄국간장 25% <i class="fas fa-arrow-down"></i></a></li>
+        <li><a href="#" data-category="간식">기획전</a></li>
+        <li><a href="#" data-category="음료">매장안내</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="icon-btn" aria-label="마이페이지"><i class="fas fa-user"></i></button>
+        <button class="icon-btn cart-btn" aria-label="장바구니">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- 배너 슬라이더 -->
+    <section class="banner">
+      <div class="banner-track">
+        <div class="slide">
+          <img src="img/5.webp" alt="제철 대저토마토">
+        </div>
+        <div class="slide">
+          <img src="img/4.webp" alt="3월의 수산">
+        </div>
+        <div class="slide">
+          <img src="img/6.webp" alt="건강관리 아이템">
+        </div>
+        <div class="slide">
+          <img src="img/7.webp" alt="귀한 한우">
+        </div>
+        <div class="slide">
+          <img src="img/8.webp" alt="아이 간식">
+        </div>
+        <div class="slide">
+          <img src="img/9.webp" alt="완도산 해조류">
+        </div>
+      </div>
+
+      <div class="banner-controls">
+        <button class="banner-arrow banner-prev" aria-label="이전">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span class="banner-counter">
+          <span id="currentSlide">1</span> / <span id="totalSlides">6</span>
+        </span>
+        <button class="banner-arrow banner-next" aria-label="다음">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 섹션1: 강력 추천 상품 -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2>장바구니로 바로 클릭! 강력 추천 상품</h2>
+        <p class="section-sub">취향 맞춤 추천 상품과 신선한 제철 상품을 함께 만나보세요.</p>
+      </div>
+      <div class="product-carousel">
+        <button class="carousel-arrow carousel-prev" aria-label="이전">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="product-grid">
+
+          <article class="product-card">
+            <a href="detail.html?id=1">
+              <div class="product-img-wrap">
+                <img src="img/2.webp" alt="아침엔 입던 통밀&감자(130g×7팩)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">아침엔 입던 통밀&amp;감자(130g×7팩)</h3>
+                <div class="price-box">
+                  <span class="discount">16%</span>
+                  <span class="sale-price">15,500원</span>
+                </div>
+                <div class="price-box"><span class="original-price">18,500원</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=2">
+              <div class="product-img-wrap">
+                <img src="img/17.webp" alt="무농약이상 로메인(120g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">무농약이상 로메인(120g)</h3>
+                <div class="price-box">
+                  <span class="discount">10%</span>
+                  <span class="sale-price">2,150원</span>
+                </div>
+                <div class="price-box"><span class="original-price">2,390원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=3">
+              <div class="product-img-wrap">
+                <img src="img/13.webp" alt="유기농 NFC 레몬즙 100%(20g×14포)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">유기농 NFC 레몬즙 100%(20g×14포)</h3>
+                <div class="price-box">
+                  <span class="discount">20%</span>
+                  <span class="sale-price">15,800원</span>
+                </div>
+                <div class="price-box"><span class="original-price">19,800원</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=4">
+              <div class="product-img-wrap">
+                <img src="img/16.webp" alt="축축 닭가슴살(450g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">축축 닭가슴살(450g)</h3>
+                <div class="price-box">
+                  <span class="discount">23%</span>
+                  <span class="sale-price">9,900원</span>
+                </div>
+                <div class="price-box"><span class="original-price">12,900원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉동</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=29">
+              <div class="product-img-wrap">
+                <img src="img/29.png" alt="무농약 깻잎(30g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">무농약 깻잎(30g)</h3>
+                <div class="price-box">
+                  <span class="discount">13%</span>
+                  <span class="sale-price">1,390원</span>
+                </div>
+                <div class="price-box"><span class="original-price">1,590원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+        <button class="carousel-arrow carousel-next" aria-label="다음">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 중간 프로모션 배너 -->
+    <section class="promo-banner">
+      <a href="all-products.html?q=건강식품">
+        <img src="img/28.webp" alt="계절이 변할 때 꼭 필요한 건강관리템">
+      </a>
+    </section>
+
+    <!-- 섹션2: 이번주 초특가 아이템 -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2>&#127991;&#65039; 이번주 초특가 아이템</h2>
+        <p class="section-sub">할인폭 좋은 상품들로 모아봤어요!</p>
+      </div>
+      <div class="product-carousel">
+        <button class="carousel-arrow carousel-prev" aria-label="이전">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="product-grid">
+
+          <article class="product-card">
+            <a href="detail.html?id=5">
+              <div class="product-img-wrap">
+                <img src="img/20.webp" alt="[기획] 오쯔에 구운 유기농 아몬드크리스프(320g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">[기획] 오쯔에 구운 유기농 아몬드크리스프(320g)</h3>
+                <div class="price-box">
+                  <span class="discount">20%</span>
+                  <span class="sale-price">16,400원</span>
+                </div>
+                <div class="price-box"><span class="original-price">20,500원</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=6">
+              <div class="product-img-wrap">
+                <img src="img/22.webp" alt="근화랩닷 치약(120g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">근화랩닷 치약(120g)</h3>
+                <div class="price-box">
+                  <span class="discount">20%</span>
+                  <span class="sale-price">4,720원</span>
+                </div>
+                <div class="price-box"><span class="original-price">5,900원</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=7">
+              <div class="product-img-wrap">
+                <img src="img/10.webp" alt="우리쫄국간장(900mL)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">우리쫄국간장(900mL)</h3>
+                <div class="price-box">
+                  <span class="discount">25%</span>
+                  <span class="sale-price">11,700원</span>
+                </div>
+                <div class="price-box"><span class="original-price">15,600원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">택배</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=8">
+              <div class="product-img-wrap">
+                <img src="img/25.webp" alt="하동 재첩국(500g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">하동 재첩국(500g)</h3>
+                <div class="price-box">
+                  <span class="discount">22%</span>
+                  <span class="sale-price">6,150원</span>
+                </div>
+                <div class="price-box"><span class="original-price">7,900원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉동</span></div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+        <button class="carousel-arrow carousel-next" aria-label="다음">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- 전체 보기 버튼 -->
+    <div class="view-all-wrap">
+      <a href="all-products.html" class="view-all-btn">전체 보기 <i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- 섹션3: 지금 제맛! 제철 과일 -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2>&#127822; 지금 제맛! 제철 과일</h2>
+        <p class="section-sub">건강하게 같이 더 맛있어요</p>
+      </div>
+      <div class="product-carousel">
+        <button class="carousel-arrow carousel-prev" aria-label="이전">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="product-grid">
+
+          <article class="product-card">
+            <a href="detail.html?id=21">
+              <div class="product-img-wrap">
+                <span class="badge-hotdeal">특가</span>
+                <img src="img/17.webp" alt="무농약이상 큰블루베리(100g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">무농약이상 큰블루베리(100g)</h3>
+                <div class="price-box">
+                  <span class="sale-price">15,900원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=22">
+              <div class="product-img-wrap">
+                <span class="badge-hotdeal">특가</span>
+                <img src="img/23.webp" alt="소복개런티 하우스감귤 두팩묶음(500g×2)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">소복개런티 하우스감귤 두팩묶음(500g×2)</h3>
+                <div class="price-box">
+                  <span class="sale-price">13,900원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=23">
+              <div class="product-img-wrap">
+                <span class="badge-hotdeal">특가</span>
+                <img src="img/24.webp" alt="소복개런티 대저토마토(1.2kg)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">소복개런티 대저토마토(1.2kg)</h3>
+                <div class="price-box">
+                  <span class="sale-price">16,900원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=24">
+              <div class="product-img-wrap">
+                <span class="badge-hotdeal">특가</span>
+                <img src="img/26.webp" alt="소복개런티 제주레드향(1.5kg)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">소복개런티 제주레드향(1.5kg)</h3>
+                <div class="price-box">
+                  <span class="sale-price">18,900원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+        <button class="carousel-arrow carousel-next" aria-label="다음">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <div class="view-all-wrap">
+      <a href="all-products.html?q=채소/과일" class="view-all-btn">전체 보기 <i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- 섹션4: 신선함으로 가득 채웠어요 -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2>&#129385;&#127996; 신선함으로 가득 채웠어요</h2>
+        <p class="section-sub">초록마을이 담은 축·수산의 맛</p>
+      </div>
+      <div class="product-carousel">
+        <button class="carousel-arrow carousel-prev" aria-label="이전">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="product-grid">
+
+          <article class="product-card">
+            <a href="detail.html?id=25">
+              <div class="product-img-wrap">
+                <img src="img/16.webp" alt="노르웨이 생연어필렛(200g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">노르웨이 생연어필렛(200g)</h3>
+                <div class="price-box">
+                  <span class="discount">11%</span>
+                  <span class="sale-price">15,900원</span>
+                </div>
+                <div class="price-box"><span class="original-price">17,900원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=26">
+              <div class="product-img-wrap">
+                <img src="img/25.webp" alt="무항생제 한돈 삼겹살구이용(상)(500g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">무항생제 한돈 삼겹살구이용(상)(500g)</h3>
+                <div class="price-box">
+                  <span class="discount">24%</span>
+                  <span class="sale-price">22,000원</span>
+                </div>
+                <div class="price-box"><span class="original-price">29,000원</span></div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=27">
+              <div class="product-img-wrap">
+                <img src="img/20.webp" alt="무항생제 김포육갈비(상)(900g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">무항생제 김포육갈비(상)(900g)</h3>
+                <div class="price-box">
+                  <span class="sale-price">12,500원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+          <article class="product-card">
+            <a href="detail.html?id=28">
+              <div class="product-img-wrap">
+                <img src="img/2.webp" alt="노르웨이 생연어회(150g)" loading="lazy">
+                <button class="cart-icon-btn" onclick="event.preventDefault();event.stopPropagation();" aria-label="장바구니 담기">
+                  <i class="fas fa-shopping-bag"></i>
+                </button>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">노르웨이 생연어회(150g)</h3>
+                <div class="price-box">
+                  <span class="sale-price">16,900원</span>
+                </div>
+                <div class="delivery-badges"><span class="delivery-badge">냉장</span></div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+        <button class="carousel-arrow carousel-next" aria-label="다음">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <div class="view-all-wrap">
+      <a href="all-products.html?q=수산/축산" class="view-all-btn">전체 보기 <i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- 초록마을 주요 서비스 -->
+    <section class="service-section">
+      <h2 class="service-title">초록마을 주요 서비스</h2>
+      <p class="service-sub">삶은 더 풍요롭고 건강하게 만들어줄 친환경 라이프 서비스를 경험하세요.</p>
+      <div class="service-grid">
+        <a href="service-quality.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-award"></i></div>
+          <span>품질관리센터</span>
+        </a>
+        <a href="service-store.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-store"></i></div>
+          <span>매장안내</span>
+        </a>
+        <a href="service-members.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-id-card"></i></div>
+          <span>초록멤버스</span>
+        </a>
+        <a href="service-recipe.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-book-open"></i></div>
+          <span>초록레시피</span>
+        </a>
+        <a href="service-welcome.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-gift"></i></div>
+          <span>신규회원혜택</span>
+        </a>
+        <a href="service-magazine.html" class="service-item">
+          <div class="service-icon"><i class="fas fa-newspaper"></i></div>
+          <span>초록매거진</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 수상/인증 배지 -->
+    <section class="awards-section">
+      <div class="awards-grid">
+        <div class="award-item">
+          <div class="award-icon"><i class="fas fa-trophy"></i></div>
+          <p>2017 친환경 소비특선<br>프리미엄 5년 대통령<br>표창 수상</p>
+        </div>
+        <div class="award-item">
+          <div class="award-icon" style="color:#e74c3c;"><i class="fas fa-flag"></i></div>
+          <p>KS-PBI<br>프리미엄브랜드지수<br>12회 1위</p>
+        </div>
+        <div class="award-item">
+          <div class="award-icon" style="color:#27ae60;"><i class="fas fa-certificate"></i></div>
+          <p>올해의 브랜드 대상<br>10년 연속 수상</p>
+        </div>
+        <div class="award-item">
+          <div class="award-icon" style="color:#e67e22;"><i class="fas fa-heart"></i></div>
+          <p>이상 소비자가 뽑은<br>올해 가장 기대 브랜드<br>13년 연속 선정</p>
+        </div>
+        <div class="award-item">
+          <div class="award-icon" style="color:#8e44ad;"><i class="fas fa-star"></i></div>
+          <p>매일경제<br>100대 프랜차이즈<br>11년 연속 선정</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <nav class="footer-nav">
+        <a href="#">회사소개</a>
+        <a href="#">상품입점상담</a>
+        <a href="#">가맹안내</a>
+        <a href="#">채용정보</a>
+        <a href="#">이용약관</a>
+        <a href="#" class="footer-nav-bold">개인정보처리방침</a>
+        <a href="#">이메일주소 무단수집금지</a>
+      </nav>
+    </div>
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>경기도 성남시 분당구 초록로 57번길 88, 3층 &nbsp;|&nbsp; 대표이사 : 박지현</p>
+        <p>사업자등록번호 : 201-47-38291 &nbsp;&nbsp; 통신판매업신고번호 : 2024-경기성남-5821 &nbsp;&nbsp; 개인정보보호책임자 : 이수민</p>
+        <p>고객센터 : 031-555-8282 &nbsp;&nbsp; 창업문의 : 1588-4242</p>
+        <p class="footer-copy">Copyright 2024. Chorocmaeul Co., Ltd. &nbsp;&nbsp; E-mail : hello@chorocmaeul.com</p>
+        <p class="footer-notice">고객님은 안전거래를 위해 현금 결제시 저희 쇼핑몰이 가입한 소비자피해보상보험서비스를 이용하실 수 있습니다.</p>
+        <a href="#" class="footer-link">구매안전 서비스가입사실 확인하기 &rsaquo;</a>
+        <a href="#" class="footer-link">사업자정보 확인하기 &rsaquo;</a>
+      </div>
+      <div class="footer-logo-wrap">
+        <span class="footer-logo-text">초록마을</span>
+        <span class="footer-logo-badge"><i class="fas fa-leaf"></i></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

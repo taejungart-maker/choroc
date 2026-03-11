@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>초록마을 :: 상품 상세</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Sunflower:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="top-menu">
+      <a href="#">회원가입</a>
+      <span class="divider">|</span>
+      <a href="#">로그인</a>
+      <span class="divider">|</span>
+      <a href="#">마이페이지</a>
+      <span class="divider">|</span>
+      <a href="#">고객센터</a>
+    </div>
+    <div class="main-header">
+      <div class="header-left">
+        <div class="delivery-text">
+          <span class="delivery-sub">하루 안에 도착하는</span>
+          <span class="delivery-main">초록마을 배송</span>
+        </div>
+        <i class="fas fa-truck-fast delivery-icon"></i>
+      </div>
+      <div class="logo">
+        <a href="index.html">
+          <span class="logo-text">초록마을</span>
+          <span class="logo-badge"><i class="fas fa-leaf"></i></span>
+        </a>
+      </div>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="건강한 먹거리를 검색하세요">
+          <button type="button"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <button class="all-category-btn">
+        <i class="fas fa-bars"></i>
+        <span>전체카테고리</span>
+      </button>
+      <ul class="categories">
+        <li><a href="index.html">OnSale</a></li>
+        <li><a href="index.html">초록베베</a></li>
+        <li><a href="index.html">우리쫄국간장 25% <i class="fas fa-arrow-down"></i></a></li>
+        <li><a href="index.html">기획전</a></li>
+        <li><a href="index.html">매장안내</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="icon-btn" aria-label="마이페이지"><i class="fas fa-user"></i></button>
+        <button class="icon-btn cart-btn" aria-label="장바구니">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="detail-container" id="detail-container">
+      <div class="loading">상품 정보를 불러오는 중입니다...</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-top">
+      <nav class="footer-nav">
+        <a href="#">회사소개</a>
+        <a href="#">상품입점상담</a>
+        <a href="#">가맹안내</a>
+        <a href="#">채용정보</a>
+        <a href="#">이용약관</a>
+        <a href="#" class="footer-nav-bold">개인정보처리방침</a>
+        <a href="#">이메일주소 무단수집금지</a>
+      </nav>
+    </div>
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>경기도 성남시 분당구 초록로 57번길 88, 3층 &nbsp;|&nbsp; 대표이사 : 박지현</p>
+        <p>사업자등록번호 : 201-47-38291 &nbsp;&nbsp; 통신판매업신고번호 : 2024-경기성남-5821 &nbsp;&nbsp; 개인정보보호책임자 : 이수민</p>
+        <p>고객센터 : 031-555-8282 &nbsp;&nbsp; 창업문의 : 1588-4242</p>
+        <p class="footer-copy">Copyright 2024. Chorocmaeul Co., Ltd. &nbsp;&nbsp; E-mail : hello@chorocmaeul.com</p>
+        <p class="footer-notice">고객님은 안전거래를 위해 현금 결제시 저희 쇼핑몰이 가입한 소비자피해보상보험서비스를 이용하실 수 있습니다.</p>
+        <a href="#" class="footer-link">구매안전 서비스가입사실 확인하기 &rsaquo;</a>
+        <a href="#" class="footer-link">사업자정보 확인하기 &rsaquo;</a>
+      </div>
+      <div class="footer-logo-wrap">
+        <span class="footer-logo-text">초록마을</span>
+        <span class="footer-logo-badge"><i class="fas fa-leaf"></i></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      updateCartCount();
+      const params = new URLSearchParams(window.location.search);
+      const productId = parseInt(params.get('id'), 10);
+      if (!productId) { showError('상품을 찾을 수 없습니다.'); return; }
+      try {
+        const res = await fetch('json/products.json');
+        const products = await res.json();
+        const product = products.find(p => p.id === productId);
+        if (!product) { showError('상품을 찾을 수 없습니다.'); return; }
+        document.title = `초록마을 :: ${product.name}`;
+        renderDetail(product, products);
+      } catch (err) {
+        showError('데이터를 불러오는 중 오류가 발생했습니다.');
+      }
+    });
+
+    function esc(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function renderDetail(product, allProducts) {
+      const container = document.getElementById('detail-container');
+      const hasDiscount = product.discountRate > 0;
+
+      const deliveryBadges = (product.delivery.length > 0 ? product.delivery : ['택배'])
+        .map(t => `<span class="detail-delivery-badge">${esc(t)}</span>`).join('');
+
+      const today = new Date();
+      const arr = new Date(today);
+      arr.setDate(today.getDate() + (today.getHours() < 14 ? 1 : 2));
+      const days = ['일','월','화','수','목','금','토'];
+      const arrStr = `${arr.getMonth()+1}월 ${arr.getDate()}일(${days[arr.getDay()]}) 도착 예정`;
+
+      const related = allProducts
+        .filter(p => p.id !== product.id && (p.section === product.section || p.category === product.category))
+        .slice(0, 4);
+
+      const relatedHtml = related.length ? `
+        <section class="detail-related">
+          <h3 class="detail-related-title">함께 보면 좋은 상품</h3>
+          <div class="detail-related-grid">
+            ${related.map(p => {
+              const hd = p.discountRate > 0;
+              return `<a href="detail.html?id=${p.id}" class="detail-related-card">
+                <div class="detail-related-img"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy"></div>
+                <div class="detail-related-info">
+                  <p class="detail-related-name">${esc(p.name)}</p>
+                  <div class="detail-related-price">
+                    ${hd ? `<span class="detail-related-discount">${p.discountRate}%</span>` : ''}
+                    <span class="detail-related-sale">${p.salePrice.toLocaleString()}원</span>
+                  </div>
+                  ${hd ? `<span class="detail-related-original">${p.originalPrice.toLocaleString()}원</span>` : ''}
+                </div>
+              </a>`;
+            }).join('')}
+          </div>
+        </section>` : '';
+
+      // 상품별 포인트 항목 (5개)
+      const points = getProductPoints(product);
+      // 상품별 Tip
+      const tip = getProductTip(product);
+      // 상품정보 항목들
+      const productInfo = getProductInfoRows(product);
+
+      container.innerHTML = `
+        <div class="detail-breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep">›</span>
+          <a href="all-products.html">${esc(product.category)}</a>
+          <span class="sep">›</span>
+          <span>${esc(product.name)}</span>
+        </div>
+
+        <!-- ── 상단 영역 ─────────────────────────── -->
+        <div class="detail-top">
+          <div class="detail-gallery">
+            <div class="detail-main-img">
+              <img src="${esc(product.image)}" alt="${esc(product.name)}" id="mainImg">
+              ${hasDiscount ? `<span class="detail-img-badge">${product.discountRate}% SALE</span>` : ''}
+            </div>
+            <div class="detail-thumb-list">
+              <button class="detail-thumb active" onclick="setMainImg('${esc(product.image)}',this)">
+                <img src="${esc(product.image)}" alt="">
+              </button>
+              ${product.image2 ? `
+              <button class="detail-thumb" onclick="setMainImg('${esc(product.image2)}',this)">
+                <img src="${esc(product.image2)}" alt="">
+              </button>` : ''}
+            </div>
+          </div>
+
+          <div class="detail-panel">
+            <span class="detail-category-tag">${esc(product.category)}</span>
+            <h1 class="detail-pname">${esc(product.name)}</h1>
+            <div class="detail-stars">
+              <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+              <span class="review-count">리뷰 128개</span>
+            </div>
+
+            <div class="detail-price-block">
+              ${hasDiscount ? `
+              <div class="detail-price-row">
+                <span class="detail-price-label">정가</span>
+                <span class="detail-price-original">${product.originalPrice.toLocaleString()}원</span>
+              </div>
+              <div class="detail-price-row">
+                <span class="detail-price-label">할인가</span>
+                <span class="detail-price-discount-rate">${product.discountRate}%</span>
+                <span class="detail-price-sale">${product.salePrice.toLocaleString()}원</span>
+              </div>` : `
+              <div class="detail-price-row">
+                <span class="detail-price-label">판매가</span>
+                <span class="detail-price-sale">${product.salePrice.toLocaleString()}원</span>
+              </div>`}
+            </div>
+
+            <div class="detail-shipping-block">
+              <div class="detail-ship-row">
+                <span class="detail-ship-label">배송</span>
+                <div class="detail-ship-value">
+                  <div class="detail-delivery-badges-wrap">${deliveryBadges}</div>
+                  <span class="detail-ship-free">무료배송</span>
+                </div>
+              </div>
+              <div class="detail-ship-row">
+                <span class="detail-ship-label">도착예정</span>
+                <span class="detail-ship-date"><i class="fas fa-truck-fast"></i> ${arrStr}</span>
+              </div>
+              ${product.origin ? `<div class="detail-ship-row"><span class="detail-ship-label">원산지</span><span class="detail-ship-text">${esc(product.origin)}</span></div>` : ''}
+              ${product.storage ? `<div class="detail-ship-row"><span class="detail-ship-label">보관방법</span><span class="detail-ship-text">${esc(product.storage)}</span></div>` : ''}
+            </div>
+
+            <div class="detail-qty-block">
+              <span class="detail-qty-label">수량</span>
+              <div class="detail-qty-wrap">
+                <button class="qty-btn" onclick="changeQty(-1)"><i class="fas fa-minus"></i></button>
+                <input type="number" id="qtyInput" value="1" min="1" max="99" readonly>
+                <button class="qty-btn" onclick="changeQty(1)"><i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+
+            <div class="detail-total-block">
+              <span class="detail-total-label">총 상품금액</span>
+              <span class="detail-total-price" id="totalPrice">${product.salePrice.toLocaleString()}원</span>
+            </div>
+
+            <div class="detail-btn-group">
+              <button class="detail-btn-wish" aria-label="찜하기"><i class="far fa-heart"></i></button>
+              <button class="detail-btn-cart" onclick="addToCartDetail(${product.id})"><i class="fas fa-shopping-cart"></i> 장바구니</button>
+              <button class="detail-btn-buy" onclick="alert('구매 기능은 준비 중입니다.')">바로 구매</button>
+            </div>
+
+            <div class="detail-sub-info">
+              <span><i class="fas fa-shield-alt"></i> 정품보장</span>
+              <span><i class="fas fa-undo"></i> 7일 무료반품</span>
+              <span><i class="fas fa-lock"></i> 안전결제</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 탭 섹션 ─────────────────────────── -->
+        <div class="detail-tab-wrap">
+          <div class="detail-tabs" id="detailTabs">
+            <button class="detail-tab active" data-tab="desc">상품설명</button>
+            <button class="detail-tab" data-tab="info">상품정보</button>
+            <button class="detail-tab" data-tab="review">상품평 <span class="tab-count">128</span></button>
+            <button class="detail-tab" data-tab="delivery">배송/반품/교환</button>
+          </div>
+
+          <!-- ▼ 상품설명 탭 -->
+          <div class="detail-tab-content active" id="tab-desc">
+
+            <!-- 상품 메인 비주얼 -->
+            <div class="desc-hero">
+              <div class="desc-hero-img">
+                <img src="${esc(product.image)}" alt="${esc(product.name)}">
+              </div>
+              <div class="desc-hero-text">
+                <p class="desc-hero-sub">${esc(product.category)} · 초록마을 엄선</p>
+                <h2 class="desc-hero-title">${esc(product.name)}</h2>
+                <p class="desc-hero-desc">${esc(product.description)}</p>
+              </div>
+            </div>
+
+            <!-- Choroc Point -->
+            <div class="desc-point-section">
+              <div class="desc-section-label">
+                <span class="desc-label-dot"></span>
+                <span>Choroc Point</span>
+              </div>
+              <h3 class="desc-section-title">초록마을이 직접 확인한<br>이 상품의 포인트</h3>
+              <div class="desc-points-grid">
+                ${points.map((pt, i) => `
+                <div class="desc-point-card">
+                  <div class="desc-point-num">0${i+1}</div>
+                  <div class="desc-point-icon"><i class="${pt.icon}"></i></div>
+                  <h4 class="desc-point-label">${pt.label}</h4>
+                  <p class="desc-point-text">${pt.text}</p>
+                </div>`).join('')}
+              </div>
+            </div>
+
+            <!-- 원재료 & 인증 -->
+            <div class="desc-cert-section">
+              <div class="desc-section-label">
+                <span class="desc-label-dot"></span>
+                <span>Ingredients &amp; Cert.</span>
+              </div>
+              <h3 class="desc-section-title">원재료 &amp; 인증 정보</h3>
+              <div class="desc-cert-grid">
+                <div class="desc-cert-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <strong>원산지</strong>
+                  <span>${esc(product.origin || '국내산')}</span>
+                </div>
+                <div class="desc-cert-item">
+                  <i class="fas fa-thermometer-half"></i>
+                  <strong>보관방법</strong>
+                  <span>${esc(product.storage || '실온보관')}</span>
+                </div>
+                <div class="desc-cert-item">
+                  <i class="fas fa-award"></i>
+                  <strong>품질인증</strong>
+                  <span>HACCP 인증</span>
+                </div>
+                <div class="desc-cert-item">
+                  <i class="fas fa-leaf"></i>
+                  <strong>친환경 기준</strong>
+                  <span>초록마을 품질보증</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Choroc Tip -->
+            <div class="desc-tip-section">
+              <div class="desc-section-label">
+                <span class="desc-label-dot"></span>
+                <span>Choroc Tip</span>
+              </div>
+              <h3 class="desc-section-title">이렇게 드셔보세요</h3>
+              <div class="desc-tip-list">
+                ${tip.map(t => `
+                <div class="desc-tip-item">
+                  <span class="desc-tip-icon"><i class="${t.icon}"></i></span>
+                  <div>
+                    <strong>${t.title}</strong>
+                    <p>${t.text}</p>
+                  </div>
+                </div>`).join('')}
+              </div>
+            </div>
+
+            <!-- Package & Info -->
+            <div class="desc-package-section">
+              <div class="desc-section-label">
+                <span class="desc-label-dot"></span>
+                <span>Package &amp; Info</span>
+              </div>
+              <h3 class="desc-section-title">패키지 &amp; 영양정보</h3>
+              <div class="desc-package-wrap">
+                <div class="desc-package-img">
+                  <img src="${esc(product.image)}" alt="패키지 이미지">
+                </div>
+                <div class="desc-nutrition">
+                  <h4>영양성분 (1회 제공량 기준)</h4>
+                  <table class="nutrition-table">
+                    <thead>
+                      <tr><th>영양성분</th><th>1회 제공량</th><th>%영양소 기준치</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>열량</td><td>80kcal</td><td>-</td></tr>
+                      <tr><td>탄수화물</td><td>17g</td><td>5%</td></tr>
+                      <tr><td>당류</td><td>3g</td><td>3%</td></tr>
+                      <tr><td>지방</td><td>0.5g</td><td>1%</td></tr>
+                      <tr><td>포화지방</td><td>0.1g</td><td>1%</td></tr>
+                      <tr><td>단백질</td><td>3g</td><td>5%</td></tr>
+                      <tr><td>나트륨</td><td>120mg</td><td>6%</td></tr>
+                    </tbody>
+                  </table>
+                  <p class="nutrition-note">※ %영양소 기준치: 1일 영양소 기준치에 대한 비율이며, 개인에 따라 다를 수 있습니다.</p>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /tab-desc -->
+
+          <!-- ▼ 상품정보 탭 -->
+          <div class="detail-tab-content" id="tab-info">
+            <div class="info-section">
+              <h3 class="info-section-title">상품정보 제공고시</h3>
+              <table class="info-table">
+                <tbody>
+                  ${productInfo.map(row => `
+                  <tr>
+                    <th>${row.label}</th>
+                    <td>${row.value}</td>
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+              <p class="info-notice">※ 위 정보는 상품 특성에 따라 실제와 일부 차이가 있을 수 있습니다.</p>
+            </div>
+
+            <div class="info-section">
+              <h3 class="info-section-title">상품 고시 정보</h3>
+              <table class="info-table">
+                <tbody>
+                  <tr><th>제품명</th><td>${esc(product.name)}</td></tr>
+                  <tr><th>카테고리</th><td>${esc(product.category)}</td></tr>
+                  <tr><th>원산지</th><td>${esc(product.origin || '국내산')}</td></tr>
+                  <tr><th>보관방법</th><td>${esc(product.storage || '실온보관')}</td></tr>
+                  <tr><th>배송구분</th><td>${product.delivery.length > 0 ? product.delivery.join(', ') : '택배'}</td></tr>
+                  <tr><th>유통기한</th><td>제품 표면 표기일 참조</td></tr>
+                  <tr><th>포장단위</th><td>상품 라벨 참조</td></tr>
+                  <tr><th>유전자 변형</th><td>해당 사항 없음</td></tr>
+                  <tr><th>소비자 상담</th><td>031-555-8282</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="info-allergen">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div>
+                <strong>알레르기 유발 성분 안내</strong>
+                <p>본 상품은 밀, 대두, 우유를 함유한 제품과 같은 시설에서 제조될 수 있습니다. 알레르기 체질이신 분은 원재료를 확인하신 후 구매하시기 바랍니다.</p>
+              </div>
+            </div>
+          </div><!-- /tab-info -->
+
+          <!-- ▼ 상품평 탭 -->
+          <div class="detail-tab-content" id="tab-review">
+
+            <!-- 평점 요약 -->
+            <div class="review-summary-wrap">
+              <div class="review-avg-box">
+                <p class="review-avg-label">구매 고객 종합 평점</p>
+                <div class="review-avg-score">4.8</div>
+                <div class="review-avg-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                </div>
+                <span class="review-avg-count">128개 리뷰</span>
+              </div>
+              <div class="review-bars-box">
+                <div class="review-bar-row"><span class="rbar-label">5점</span><div class="rbar-track"><div class="rbar-fill" style="width:82%"></div></div><span class="rbar-num">105</span></div>
+                <div class="review-bar-row"><span class="rbar-label">4점</span><div class="rbar-track"><div class="rbar-fill" style="width:12%"></div></div><span class="rbar-num">15</span></div>
+                <div class="review-bar-row"><span class="rbar-label">3점</span><div class="rbar-track"><div class="rbar-fill" style="width:4%"></div></div><span class="rbar-num">5</span></div>
+                <div class="review-bar-row"><span class="rbar-label">2점</span><div class="rbar-track"><div class="rbar-fill" style="width:1%"></div></div><span class="rbar-num">2</span></div>
+                <div class="review-bar-row"><span class="rbar-label">1점</span><div class="rbar-track"><div class="rbar-fill" style="width:1%"></div></div><span class="rbar-num">1</span></div>
+              </div>
+              <div class="review-point-notice">
+                <i class="fas fa-gift"></i>
+                <div>
+                  <strong>리뷰 작성 시 포인트 지급</strong>
+                  <ul>
+                    <li>첫 상품평 작성 시 <em>500P</em> 지급</li>
+                    <li>상품평 등록 시 <em>50P</em> 지급</li>
+                    <li>포토 리뷰 작성 시 추가 <em>100P</em> 지급</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 리뷰 필터 -->
+            <div class="review-filter-bar">
+              <button class="review-filter-btn active">전체 128</button>
+              <button class="review-filter-btn">포토 리뷰 32</button>
+              <button class="review-filter-btn">5점 105</button>
+              <button class="review-filter-btn">4점 15</button>
+            </div>
+
+            <!-- 리뷰 목록 -->
+            <ul class="review-list">
+              <li class="review-item">
+                <div class="review-top">
+                  <div class="review-user-info">
+                    <span class="review-avatar"><i class="fas fa-user"></i></span>
+                    <div>
+                      <span class="review-author">김*연</span>
+                      <span class="review-stars-small">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    </div>
+                  </div>
+                  <span class="review-date">2025.02.14</span>
+                </div>
+                <p class="review-title">진짜 맛있어요! 재구매 확정</p>
+                <p class="review-body">정말 맛있어요! 매일 먹고 싶은 맛입니다. 포장도 꼼꼼하고 신선하게 왔어요. 아이들도 잘 먹어서 온 가족이 즐기고 있습니다. 재구매 의사 100% 있습니다!</p>
+                <div class="review-tags">
+                  <span>#맛있어요</span><span>#재구매</span><span>#아이들도좋아요</span>
+                </div>
+              </li>
+              <li class="review-item">
+                <div class="review-top">
+                  <div class="review-user-info">
+                    <span class="review-avatar"><i class="fas fa-user"></i></span>
+                    <div>
+                      <span class="review-author">박*준</span>
+                      <span class="review-stars-small">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    </div>
+                  </div>
+                  <span class="review-date">2025.02.10</span>
+                </div>
+                <p class="review-title">초록마을 믿고 샀는데 역시 최고네요</p>
+                <p class="review-body">초록마을 믿고 구매했는데 역시 품질이 좋네요. 원재료도 믿을 수 있고, 배송도 빠르게 왔어요. 앞으로도 계속 여기서 구매할 것 같습니다. 강력 추천합니다!</p>
+                <div class="review-tags">
+                  <span>#품질보증</span><span>#빠른배송</span><span>#강력추천</span>
+                </div>
+              </li>
+              <li class="review-item">
+                <div class="review-top">
+                  <div class="review-user-info">
+                    <span class="review-avatar"><i class="fas fa-user"></i></span>
+                    <div>
+                      <span class="review-author">이*진</span>
+                      <span class="review-stars-small">&#9733;&#9733;&#9733;&#9733;<span style="color:#ddd">&#9733;</span></span>
+                    </div>
+                  </div>
+                  <span class="review-date">2025.01.28</span>
+                </div>
+                <p class="review-title">가성비 좋고 배송 빨라요</p>
+                <p class="review-body">배송도 빠르고 상품 상태도 좋았어요. 가격 대비 만족스럽습니다! 맛도 기대 이상이었고 포장도 튼튼하게 잘 왔어요. 별 하나는 포장지가 조금 아쉬워서 뺐어요.</p>
+                <div class="review-tags">
+                  <span>#가성비</span><span>#빠른배송</span>
+                </div>
+              </li>
+              <li class="review-item">
+                <div class="review-top">
+                  <div class="review-user-info">
+                    <span class="review-avatar"><i class="fas fa-user"></i></span>
+                    <div>
+                      <span class="review-author">최*영</span>
+                      <span class="review-stars-small">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    </div>
+                  </div>
+                  <span class="review-date">2025.01.15</span>
+                </div>
+                <p class="review-title">친환경 제품 찾다가 초록마을 알게 됐어요</p>
+                <p class="review-body">친환경 제품을 찾다가 초록마을을 알게 됐는데, 이 상품 정말 대만족입니다. 원재료가 확실하고 맛도 좋아요. 아이 간식으로도 안심하고 줄 수 있어서 좋습니다.</p>
+                <div class="review-tags">
+                  <span>#친환경</span><span>#아이간식</span><span>#안심</span>
+                </div>
+              </li>
+            </ul>
+
+            <div class="review-write-notice">
+              <h4><i class="fas fa-pen"></i> 상품평 작성 안내</h4>
+              <ul>
+                <li>온라인몰 구매 내역이 있는 고객님만 작성 가능합니다.</li>
+                <li>작성 가능 기간은 주문일로부터 <strong>3개월</strong>입니다.</li>
+                <li>광고성 내용, 식품위생법에 저촉되는 내용은 관리자에 의해 삭제될 수 있습니다.</li>
+                <li>동일 상품 재구매 시에도 각 구매 건마다 상품평 작성이 가능합니다.</li>
+              </ul>
+            </div>
+
+          </div><!-- /tab-review -->
+
+          <!-- ▼ 배송/반품/교환 탭 -->
+          <div class="detail-tab-content" id="tab-delivery">
+
+            <div class="dlv-section">
+              <h3 class="dlv-title"><i class="fas fa-truck"></i> 배송 안내</h3>
+              <table class="dlv-table">
+                <tbody>
+                  <tr>
+                    <th>배송구분</th>
+                    <td>
+                      <strong>일반택배</strong> · CJ대한통운<br>
+                      <span class="dlv-sub">평일 오후 10시 이전 주문·결제 완료 시 다음날 발송</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>배송기간</th>
+                    <td>
+                      발송 후 <strong>1~2일</strong> 이내 도착 (영업일 기준)<br>
+                      <span class="dlv-sub">도서·산간·제주 지역은 추가 1~2일 소요될 수 있습니다.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>배송비</th>
+                    <td>
+                      <span class="dlv-free-tag">무료배송</span>
+                      <span class="dlv-sub">4만원 미만 구매 시 배송비 3,000원 부과<br>도서·산간 지역 추가 배송비 3,000~5,000원 발생</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>배송지역</th>
+                    <td>전국 (단, 제주 및 도서·산간 지역 일부 배송 제한)</td>
+                  </tr>
+                  <tr>
+                    <th>도착희망일</th>
+                    <td>주문 시 도착 희망일 지정 가능 (명절·공휴일 제외)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="dlv-section">
+              <h3 class="dlv-title"><i class="fas fa-undo"></i> 반품·교환 안내</h3>
+              <table class="dlv-table">
+                <tbody>
+                  <tr>
+                    <th>반품·교환<br>유효기간</th>
+                    <td>
+                      <ul class="dlv-list">
+                        <li><strong>신선식품·냉동식품:</strong> 수령일로부터 <em>2일 이내</em> (미개봉 제품만 가능)</li>
+                        <li><strong>상온 일반 상품:</strong> 수령일로부터 <em>7일 이내</em></li>
+                        <li>상품 이상(파손·오배송·품질불량) 시 사진과 함께 고객센터 접수</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>반품·교환<br>배송비</th>
+                    <td>
+                      <ul class="dlv-list">
+                        <li><strong>고객 단순 변심:</strong> 왕복 배송비 고객 부담 (왕복 6,000원)</li>
+                        <li><strong>상품 불량·오배송:</strong> 배송비 초록마을 부담</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>반품·교환<br>방법</th>
+                    <td>
+                      마이페이지 → 주문내역 → 해당 주문 선택 → 반품/교환 신청<br>
+                      <span class="dlv-sub">또는 고객센터(031-555-8282)로 문의</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="dlv-section">
+              <h3 class="dlv-title"><i class="fas fa-ban"></i> 반품·교환 불가 사항</h3>
+              <div class="dlv-noreturn-grid">
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-seedling"></i>
+                  <strong>신선식품</strong>
+                  <span>채소, 청과, 신선가공식품<br>고객 변심 반품 불가</span>
+                </div>
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-snowflake"></i>
+                  <strong>냉동식품</strong>
+                  <span>냉동 상태 유지 불가 시<br>반품·교환 불가</span>
+                </div>
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-box-open"></i>
+                  <strong>포장 훼손</strong>
+                  <span>개봉 또는 포장 훼손 시<br>반품·교환 불가</span>
+                </div>
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-calendar-times"></i>
+                  <strong>기간 초과</strong>
+                  <span>반품·교환 기간 경과 시<br>처리 불가</span>
+                </div>
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-gift"></i>
+                  <strong>사은품 분실</strong>
+                  <span>사은품 포함 상품의<br>사은품 분실 시 불가</span>
+                </div>
+                <div class="dlv-noreturn-item">
+                  <i class="fas fa-truck-loading"></i>
+                  <strong>산지직송</strong>
+                  <span>예약·산지직송 상품은<br>단순 변심 반품 불가</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="dlv-cs-box">
+              <i class="fas fa-headset"></i>
+              <div>
+                <strong>고객센터 안내</strong>
+                <p>전화: <strong>031-555-8282</strong> &nbsp;|&nbsp; 운영시간: 평일 09:00~18:00 (점심 12:00~13:00)</p>
+                <p>주말·공휴일 휴무 &nbsp;|&nbsp; 이메일: hello@chorocmaeul.com</p>
+              </div>
+            </div>
+
+          </div><!-- /tab-delivery -->
+
+        </div><!-- /detail-tab-wrap -->
+
+        ${relatedHtml}
+      `;
+
+      // 탭 클릭 → 해당 섹션으로 스크롤
+      const tabBar = document.getElementById('detailTabs');
+      document.querySelectorAll('.detail-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = document.getElementById('tab-' + btn.dataset.tab);
+          if (!target) return;
+          const offset = (tabBar ? tabBar.getBoundingClientRect().height : 60) + 8;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        });
+      });
+
+      // 스크롤 위치에 따라 탭 활성 표시 자동 갱신
+      const sections = ['desc','info','review','delivery']
+        .map(id => document.getElementById('tab-' + id)).filter(Boolean);
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id.replace('tab-', '');
+            document.querySelectorAll('.detail-tab').forEach(b => {
+              b.classList.toggle('active', b.dataset.tab === id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(s => observer.observe(s));
+
+      // 리뷰 필터 버튼
+      document.querySelectorAll('.review-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.review-filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      window._productSalePrice = product.salePrice;
+    }
+
+    // 상품별 Point 5개
+    function getProductPoints(p) {
+      const defaults = [
+        { icon:'fas fa-seedling', label:'재료 & 품종', text:'엄격한 기준으로 선별된 원재료를 사용합니다. 국내산 원물 중심으로 신선도를 최우선으로 관리합니다.' },
+        { icon:'fas fa-cogs', label:'생산 과정', text:'HACCP 인증 공장에서 위생적으로 생산됩니다. 철저한 품질 관리 공정을 통해 안심할 수 있는 상품을 제공합니다.' },
+        { icon:'fas fa-ban', label:'무첨가', text:'합성착향료, 합성보존료, 인공색소를 넣지 않았습니다. 가족 모두 안심하고 드실 수 있습니다.' },
+        { icon:'fas fa-star', label:'추천 & 활용', text:'간편하게 즐길 수 있어 바쁜 일상 속 든든한 한 끼로 적합합니다. 아이부터 어른까지 온 가족이 즐길 수 있습니다.' },
+        { icon:'fas fa-certificate', label:'인증 & 포장', text:'초록마을 자체 품질 보증 기준을 통과한 상품입니다. 안전한 포장재를 사용하여 신선하게 배송됩니다.' }
+      ];
+      // 카테고리별 커스텀
+      const cat = p.category;
+      if (cat === '채소/과일') {
+        defaults[0].text = '친환경·무농약 인증을 받은 원물을 사용합니다. 재배지에서 직접 선별하여 최상의 신선도를 유지합니다.';
+        defaults[3].text = '샐러드, 스무디, 요리 재료 등 다양하게 활용하세요. 그대로 먹어도 맛있고 요리해도 풍미가 살아납니다.';
+      } else if (cat === '수산/축산') {
+        defaults[0].text = '신뢰할 수 있는 산지에서 직접 공수한 신선한 원물입니다. 엄격한 검수를 거쳐 최고 품질만 선별합니다.';
+        defaults[2].text = '항생제·성장호르몬을 사용하지 않은 안전한 축·수산물입니다. 건강한 먹거리를 위한 초록마을의 약속입니다.';
+      }
+      return defaults;
+    }
+
+    // 상품별 Tip
+    function getProductTip(p) {
+      const cat = p.category;
+      if (cat === '채소/과일') return [
+        { icon:'fas fa-utensils', title:'신선하게 즐기는 법', text:'냉장 보관 후 세척하여 바로 섭취하면 가장 맛있습니다. 통풍이 잘 되는 용기에 담아 보관하세요.' },
+        { icon:'fas fa-blender', title:'다양한 활용법', text:'샐러드로 그냥 드셔도 맛있고, 스무디나 주스로 만들어 드셔도 좋습니다. 요리 재료로도 활용해보세요.' },
+        { icon:'fas fa-snowflake', title:'보관 팁', text:'냉장 보관이 기본이며, 장기 보관 시 밀폐 용기에 넣어 냉동 보관하시면 더 오래 드실 수 있습니다.' }
+      ];
+      if (cat === '수산/축산') return [
+        { icon:'fas fa-fire', title:'조리 전 해동법', text:'냉장실에서 천천히 해동하거나 흐르는 찬물에 해동하세요. 전자레인지 해동은 육즙 손실이 생길 수 있습니다.' },
+        { icon:'fas fa-utensils', title:'맛있게 먹는 법', text:'신선한 상태 그대로 구이, 찜, 볶음 등 다양한 조리법으로 즐기실 수 있습니다.' },
+        { icon:'fas fa-temperature-low', title:'보관 방법', text:'개봉 후 즉시 사용하거나 냉동 보관하세요. 냉장 보관 시 1~2일 이내 소비를 권장합니다.' }
+      ];
+      return [
+        { icon:'fas fa-microwave', title:'간편하게 즐기는 법', text:'패키지 그대로 전자레인지(700W)에 30초~1분 데운 후 드세요. 데우지 않고 그대로 드셔도 맛있습니다.' },
+        { icon:'fas fa-sun', title:'최적의 섭취 타이밍', text:'아침 대용 혹은 간식으로 언제든 간편하게 즐기세요. 운동 전후 에너지 보충에도 좋습니다.' },
+        { icon:'fas fa-box', title:'보관 팁', text:'직사광선을 피해 서늘하고 건조한 곳에 보관하세요. 개봉 후에는 밀봉하여 냉장 보관을 권장합니다.' }
+      ];
+    }
+
+    // 상품정보 테이블 행
+    function getProductInfoRows(p) {
+      return [
+        { label:'제품명', value: p.name },
+        { label:'식품 유형', value: getFoodType(p.category) },
+        { label:'생산자 및 소재지', value: getManufacturer(p) },
+        { label:'제조연월일', value: '포장지 표기일 참조' },
+        { label:'유통기한', value: '제조일로부터 365일 (냉장·냉동 상품은 포장 표기 참조)' },
+        { label:'포장 단위', value: '포장지 표기 참조' },
+        { label:'원재료명 및 함량', value: p.origin ? `주원료: ${p.origin} (상세 원재료는 포장지 참조)` : '포장지 표기 참조' },
+        { label:'영양성분', value: '포장지 표기 참조' },
+        { label:'유전자 변형 식품', value: '해당 사항 없음' },
+        { label:'보관방법', value: p.storage || '실온보관' },
+        { label:'소비자 상담', value: '031-555-8282 (평일 09:00~18:00)' }
+      ];
+    }
+
+    function getFoodType(cat) {
+      const map = {
+        '간편식':'즉석조리식품(레토르트식품)',
+        '채소/과일':'농산물(신선식품)',
+        '수산/축산':'수산물·축산물(신선식품)',
+        '음료':'음료류(가공식품)',
+        '건강식품':'건강기능식품',
+        '간식':'과자류(가공식품)',
+        '양념/조미료':'장류·조미식품',
+        '곡물/잡곡':'농산가공식품',
+        '면류':'면류(가공식품)',
+        '차/음료':'음료류(가공식품)',
+        '생활용품':'생활용품'
+      };
+      return map[cat] || '식품(가공식품)';
+    }
+
+    function getManufacturer(p) {
+      if (!p.origin) return '포장지 표기 참조';
+      if (p.origin.includes('노르웨이')) return '수입산 (수입원: 초록마을)';
+      if (p.origin.includes('제주')) return '국내산 / 제주특별자치도';
+      if (p.origin.includes('부산')) return '국내산 / 부산광역시';
+      if (p.origin.includes('하동')) return '국내산 / 경남 하동군';
+      if (p.origin.includes('이탈리아') || p.origin.includes('이스라엘')) return `수입산 / ${p.origin}`;
+      return '국내산 / 포장지 표기 참조';
+    }
+
+    function setMainImg(src, thumbEl) {
+      document.getElementById('mainImg').src = src;
+      document.querySelectorAll('.detail-thumb').forEach(t => t.classList.remove('active'));
+      thumbEl.classList.add('active');
+    }
+
+    function changeQty(delta) {
+      const input = document.getElementById('qtyInput');
+      let qty = parseInt(input.value) + delta;
+      if (qty < 1) qty = 1;
+      if (qty > 99) qty = 99;
+      input.value = qty;
+      document.getElementById('totalPrice').textContent =
+        (qty * (window._productSalePrice || 0)).toLocaleString() + '원';
+    }
+
+    function showError(msg) {
+      document.getElementById('detail-container').innerHTML = `
+        <div style="text-align:center;padding:80px 0;">
+          <p style="font-size:16px;color:#999;">${msg}</p>
+          <a href="index.html" style="display:inline-block;margin-top:20px;padding:10px 30px;background:#236b43;color:#fff;border-radius:6px;font-size:14px;font-weight:600;">메인으로 돌아가기</a>
+        </div>`;
+    }
+
+    function addToCartDetail(productId) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const qty = parseInt(document.getElementById('qtyInput')?.value || 1);
+      const existing = cart.find(item => item.id === productId);
+      if (existing) existing.qty += qty;
+      else cart.push({ id: productId, qty });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      let toast = document.getElementById('cart-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'cart-toast';
+        toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#236b43;color:#fff;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = '장바구니에 담았습니다';
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const total = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.querySelectorAll('.cart-count').forEach(el => { el.textContent = total; });
+    }
+  </script>
+</body>
+</html>
